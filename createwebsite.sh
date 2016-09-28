@@ -41,9 +41,8 @@ echo "---------------------------------------------------------"
 echo "------ Tout est crée dans le repertoire voulu :) --------"
 echo "---------------------------------------------------------"
 echo ""
-echo ""
-echo "lien Git du nouveau repo pliz:"
-read REPO
+REPO=${PWD##*/}
+git-create $REPO psykoterro
 echo "-------------------------------------------"
 echo "------ Parametrage du nouveau REPO --------"
 echo "-------------------------------------------"
@@ -54,7 +53,7 @@ echo "# Nouveau site" >> README.md
 git init
 git add .
 git commit -m 'initial commit'
-git remote add origin $REPO
+git remote add origin "https://github.com/psykoterro/${REPO}.git"
 git push -u origin master
 echo "--------------------------------------"
 echo "------ C'est finis ! va coder --------"
