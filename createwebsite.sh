@@ -1,20 +1,15 @@
 #!/bin/bash
 # Création d'une arborescence de site WEB
 
-echo "----------------------------------------------"
 echo "------ Construction d'un nouveau site --------"
-echo "----------------------------------------------"
-
-echo "Dans quel repertoire ? (home/USER/simplon/jour1/)"
+echo "Dans quel repertoire ? (/home/USER/simplon/jour1/)"
 read repertoire
                  
 echo "Création du répertoire ${repertoire}..."   
 echo "mkdir ${repertoire}"                       
 mkdir "${repertoire}"   
 cd  "${repertoire}"
-echo "----------------------------------------"
 echo "------ Création de l'index.html --------"
-echo "----------------------------------------"
 echo '<!doctype html>
 <html lang="fr">
 <head>
@@ -29,20 +24,11 @@ echo '<!doctype html>
   ...
 </body>
 </html>' > index.html
-echo "----------------------------------------------------------"
 echo "------ Création des repertoires css, scripts, img --------"
-echo "----------------------------------------------------------"
-mkdir "css";mkdir "scripts";mkdir "img"
-echo "------------------------------------------------------------"
+mkdir {css,scripts,img}
 echo "------ Création des fichiers style.css et script.js --------"
-echo "------------------------------------------------------------"
 touch "${repertoire}/css/style.css";touch "${repertoire}/scripts/script.js"
-echo "---------------------------------------------------------"
-echo "------ Tout est crée dans le repertoire voulu :) --------"
-echo "---------------------------------------------------------"
-echo "-------------------------------------------"
 echo "-Avez-vous déjà configurer Git sur ce PC ?-"
-echo "-------------------------------------------"
 read reponse
 if [ "$reponse" == "non" ] || [ "$reponse" == "n" ] || [ "$reponse" == "N" ]; then
 	echo "Veuillez entrer votre adresse email:"
@@ -56,11 +42,8 @@ repo_name=${PWD##*/}
 echo "Veuillez entrer votre identifiant Git:"
 read login
 curl -u $login https://api.github.com/user/repos -d" {\"name\":\"$repo_name\"}"
-echo "-------------------------------------------"
 echo "------ Parametrage du nouveau REPO --------"
-echo "-------------------------------------------"
 echo "- $REPO"
-echo "-------------------------------------------"
 touch .gitignore
 echo "# Nouveau site" >> README.md
 git init
@@ -68,7 +51,5 @@ git add .
 git commit -m 'initial commit'
 git remote add origin "https://github.com/psykoterro/${repo_name}.git"
 git push -u origin master
-echo "--------------------------------------"
 echo "------ C'est finis ! va coder --------"
-echo "--------------------------------------"
-firefox https://github.com/psykoterro/${repo_name}
+firefox https://github.com/psykoterro/${repo_name} &
