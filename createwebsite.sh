@@ -40,9 +40,22 @@ touch "${repertoire}/css/style.css";touch "${repertoire}/scripts/script.js"
 echo "---------------------------------------------------------"
 echo "------ Tout est crée dans le repertoire voulu :) --------"
 echo "---------------------------------------------------------"
-echo ""
-REPO=${PWD##*/}
-git-create $REPO psykoterro
+echo "-------------------------------------------"
+echo "-Avez-vous déjà configurer Git sur ce PC ?-"
+echo "-------------------------------------------"
+read reponse
+if [ "$reponse" == "non" ] || [ "$reponse" == "n" ] || [ "$reponse" == "N" ]; then
+	echo "Veuillez entrer votre adresse email:"
+	read email
+	git config --global user.email "$email"
+	echo "Veuillez entrer votre nom d'utilisateur:"
+	read username
+	git config --global user.name "$username"
+fi
+repo_name=${PWD##*/}
+echo "Veuillez entrer votre identifiant Git:"
+read login
+curl -u $login https://api.github.com/user/repos -d" {\"name\":\"$repo_name\"}"
 echo "-------------------------------------------"
 echo "------ Parametrage du nouveau REPO --------"
 echo "-------------------------------------------"
@@ -53,8 +66,9 @@ echo "# Nouveau site" >> README.md
 git init
 git add .
 git commit -m 'initial commit'
-git remote add origin "https://github.com/psykoterro/${REPO}.git"
+git remote add origin "https://github.com/psykoterro/${repo_name}.git"
 git push -u origin master
 echo "--------------------------------------"
 echo "------ C'est finis ! va coder --------"
 echo "--------------------------------------"
+firefox https://github.com/psykoterro/${repo_name}
