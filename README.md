@@ -35,7 +35,8 @@ Options Disponible:
 8. [Git] Changer de branche
 9. [Git] Supprimer une branche
 10. [Git] Initialise .git/config
-11. Cancel
+11. [Git] Cloner tout mes repos
+12. Cancel
 
 
 ## To-DO list

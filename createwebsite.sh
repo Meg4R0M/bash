@@ -32,6 +32,7 @@ OPTIONS=(
   "[Git] Changer de branche"
   "[Git] Supprimer une branche"
   "[Git] Initialise .git/config"
+  "[Git] Cloner tout mes repos"
   "Annuler"
 )
 
@@ -339,9 +340,9 @@ while true; do
     echo "Que voulez-vous faire ensuite?"
   fi
 
-  # ==========================
+  # ===========================
   # SELECTiON INITIALISE CONFIG
-  # ==========================
+  # ===========================
   if [[ $option == "[Git] Initialise .git/config" ]]; then
     # Started task
     echo "=> Initialisation .git/config..."
@@ -397,6 +398,61 @@ while true; do
     echo "=> .git/config initialisé"
     echo "Que voulez-vous faire ensuite?"
 fi
+
+  # ===============================
+  # SELECTiON Cloner tout mes repos
+  # ===============================
+  if [[ $option == "Cloner tout mes repos" ]]; then
+    echo "Votre nom d'utilisateur:"
+    read repoURL
+    githubBaseUrl="https://github.com";
+    tempLocation=`pwd`/temp;
+    tempFile="data"
+    echo "INFO:: Check des fichiers temporaires."
+    if [ ! -d $tempLocation ]
+      then
+      mkdir $tempLocation;
+      mkdir "repositories";
+    else
+      rm $tempLocation/*;
+    fi
+
+    curlClient=`which curl`
+    if [[ $curlClient = "" ]] 
+      then
+      echo "ERREUR:: Veuillez installer curlClient.";
+    else
+      echo $githubBaseUrl"/"$repoUrl"?tab=repositories";
+      # curl -I $githubBaseUrl"/"$repoUrl"?tab=repositories" | awk '/HTTP/ {print $2}'
+      curl $githubBaseUrl"/"$repoUrl"?tab=repositories" > $tempLocation/$tempFile;
+      sed -n '/codeRepository">/,/<\/a>/p' $tempLocation/$tempFile |  sed -e 's/<\/a>$//g;/">/d;s/ //g' > $tempLocation"/repoList";
+    
+      if [ ! -d "repositories"/$repoUrl ]
+        then
+        mkdir "repositories"/$repoUrl;
+      fi
+    
+      gitClient=`which git`;
+      if [[ $gitClient = "" ]]
+        then
+        echo "ERREUR:: Veuillez installer le client Git";
+        exit 0;
+      fi
+      cd $(pwd)/"repositories"/$repoUrl;
+      while IFS= read -r repo
+      do
+        echo "$repo";
+        if [ ! -d $repo ]
+          then
+          echo $(pwd);
+          #echo "svn co $githubBaseUrl/$repoUrl/$repo.git"
+          git clone $githubBaseUrl/$repoUrl/$repo.git;
+        else
+          git pull $githubBaseUrl/$repoUrl/$repo.git; 
+        fi 
+      done < "$tempLocation/repoList" 
+    fi
+  fi
 
   # =================
   # SELECTiON ANNULER
