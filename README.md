@@ -10,12 +10,19 @@ Requirements:
 ## Editer les paremetres du fichier createwebsite.sh
 
 Exemple: bash
+
 ```REPO_NAME=""```
+
 Exemple: psykoterro
+
 ```USER_NAME=""```
+
 Exemple: me@mydomain.com
+
 ```USER_EMAIL=""```
+
 Exemple: /path/to/id_rsa
+
 ```SSH_KEY="";```
 
 Vous aurez également besoin de générer une clé SSH et l'ajouter à votre compte github. Plus d'informations sur ce sujets dans la [Documentation Github](https://help.github.com/articles/generating-an-ssh-key/).
